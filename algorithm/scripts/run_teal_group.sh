@@ -101,7 +101,9 @@ suggests: CustomRvqLinear.forward() does not use AQLM's fused low-bit kernel --
 it holds each codebook as a dense FP16 buffer and runs one F.linear per
 codebook in a Python loop.
 
-To skip the search entirely, evaluate the two committed Llama-2-7B searches:
+Reproducing C2 means paying that: grab_acts -> greedyopt -> ppl_test in full.
+--use-ref evaluates a committed search instead, which exercises the plumbing but
+does not reproduce its numbers (algorithm/README.md section 3):
   ../../run_algorithm.sh --use-ref -m llama2_7b eval
 
 meta-groups: dense = llama2_7b llama2_13b mistral_7b
@@ -180,8 +182,8 @@ done
 TAG_ARG="--run-tag $TAG"
 [ -z "$TAG" ] && TAG_ARG=""
 # Only warn when a stage would actually WRITE there. eval and gather only
-# read, and that is the recommended cheap path -- warning trains people to
-# ignore the warning.
+# read, and reading the committed tables is a legitimate thing to do -- warning
+# on it trains people to ignore the warning.
 if [ -z "$TAG" ] && [ $((DO_PREPARE + DO_SEARCH)) -gt 0 ]; then
     echo "WARNING: -t '' targets the CANONICAL teal_output directory, and" >&2
     echo "         prepare/search WRITE there -- the same directories the" >&2

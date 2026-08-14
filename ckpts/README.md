@@ -44,25 +44,31 @@ length), not on this path. Rename in `models.py` and here together, and the
 `teal_path` recorded in `stats/ref/sparsity_info/` becomes stale as
 documentation but breaks nothing.
 
-### What these save, and what they do not
+### What these are for
 
-They exist so `greedyopt` — the expensive half of `search` — can be skipped:
-measured 26.5 h for codebook-wise and 1.5 h for uniform on an A100, per model.
+They are the **reference**: the thresholds every published Vortex number was
+produced from, and what
+`stats/ref/sparsity_info/teal_sparsities_thresholds_20260402_231905.jsonl` was
+gathered from. Compare a search of your own against them.
 
-They do **not** make `eval` free. A `lookup/` table stores quantiles, which
-`SparsifyFn.set_threshold` converts to magnitudes through whichever histogram is
-attached, so a table is only numerically exact **paired with the histograms it
-was searched against** — and those are not committed (see below). Pairing a
-committed table with freshly regenerated histograms builds a sparse model at
-approximately the intended sparsity; it does not reproduce the perplexity the
-table's own search measured. `algorithm/README.md` §3 has the full argument.
+They are **not a way to skip the search.** A `lookup/` table stores quantiles,
+which `SparsifyFn.set_threshold` converts to magnitudes through whichever
+histogram is attached, so a table is only numerically exact **paired with the
+histograms it was searched against** — and those are several GB per model and
+not committed (see below). Pairing a committed table with freshly regenerated
+histograms builds a sparse model at approximately the intended sparsity; it does
+not reproduce the perplexity the table's own search measured.
+`algorithm/README.md` §3 has the full argument.
 
-So the cheap path is `grab_acts` + these tables + `ppl_test`, not `ppl_test`
-alone:
+So reproducing C2 is the full pipeline — `grab_acts` → `greedyopt` → `ppl_test`,
+roughly 1.5 A100-days per model:
 
 ```bash
-./run_algorithm.sh --use-ref -m llama2_13b eval
+./run_algorithm.sh -m llama2_13b
 ```
+
+`--use-ref` runs `ppl_test` against the committed table instead. Useful to check
+the plumbing end to end in minutes; not a substitute for the search.
 
 ### What is not committed
 

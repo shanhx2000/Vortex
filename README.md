@@ -82,13 +82,22 @@ reproduce the algorithm side itself.
 conda activate alg
 ./run_algorithm.sh -l                                  # models, methods, phases
 ./run_algorithm.sh -n                                  # dry run: print the commands
-./run_algorithm.sh --use-ref -m llama2_7b eval build   # minutes, no search
+./run_algorithm.sh -m llama2_7b                        # one model, full pipeline
 ./run_algorithm.sh                                     # everything: 3 models x 2 methods
+./run_algorithm.sh build                               # eval records -> stats/algorithm/
 ./visual_results.sh --use-algorithm AC AD AE           # redraw from your own numbers
 ```
 
-**Start with the `--use-ref` line.** Two Llama-2-7B searches ship, so it
-evaluates them directly and skips the ~1.5 GPU-days a search costs.
+**Reproducing C2 means running `prepare`, `search` and `eval` in full**, which
+is the default. The searched thresholds under `ckpts/teal_output/` are committed
+as the reference the published numbers came from, not as a way to skip the
+search: a threshold table stores quantiles, which are converted to magnitudes
+through whichever activation histogram is attached, and the histograms are far
+too large to commit. Pairing a committed table with histograms you regenerated
+builds a sparse model at roughly the intended sparsity but does not reproduce
+the perplexity that table's own search measured. `--use-ref` is therefore a
+smoke test of the plumbing, not a shortcut to the result — see
+`algorithm/README.md` §3.
 
 Phases, given as positional arguments and always run in this order:
 
@@ -208,7 +217,8 @@ stats/                all data. ref/ mirrors the layout a run writes, so one
     algorithm/            C2 results, same filenames as above
     sparsity_info/        sparsity thresholds: C2's output, C1's input
 ckpts/                the committed greedy-search lookup tables, one directory
-                      per model key, so `eval` runs without a search first
+                      per model key: the reference a search of your own is
+                      compared against. See ckpts/README.md.
 figures/              where every render writes. Git-ignored; ref/ is
                       committed.
 logs/                 per-run record: command, timing, commit, output md5s

@@ -32,14 +32,18 @@
 #               instead of a tagged run of your own. Equivalent to -t "".
 #   -n / -l / -h
 #
-# --use-ref is how to spend ten minutes on C2 instead of a GPU-day and a half.
-# Two Llama-2-7B searches ship (uniform and codebookwise), so
+# Reproducing C2 means prepare + search + eval, which is what running this with
+# no phase argument does. Budget ~1.5 A100-days per model.
 #
-#   ./run_algorithm.sh --use-ref -m llama2_7b eval
-#
-# evaluates them directly and skips the ~1.5 GPU-days the search would cost. It
-# reads those directories; nothing writes back into them unless you ask for a
-# phase that produces output, which is why every other command gets a tag.
+# --use-ref points eval at the COMMITTED searches instead of a tagged run of
+# your own. That is a plumbing smoke test, not a shortcut to the published
+# numbers: a lookup table holds quantiles, converted to magnitudes through
+# whichever activation histogram is attached, and the histograms are too large
+# to commit. Against histograms you regenerated, a committed table gives roughly
+# the intended sparsity and not the perplexity its own search measured
+# (algorithm/README.md section 3). It reads those directories; nothing writes
+# back into them unless you ask for a phase that produces output, which is why
+# every other command gets a tag.
 #
 # All models are the 2-bit AQLM checkpoints. `uniform` is TEAL's codebook-
 # uniform thresholding, `codebookwise` is ours; the paper compares the two.
@@ -77,9 +81,11 @@ phases   prepare  build the per-codebook model     (codebookwise only)
                                                    (not run by default)
 
 Default: every model x every method, prepare + search + eval, eval at 0.0,0.3.
-Budget roughly 1.5 A100-days per model for `search`.
+Budget roughly 1.5 A100-days per model for `search`. That full pipeline is what
+reproduces C2; the committed searches are the reference it is compared against.
 
-Cheap path -- evaluate the shipped Llama-2-7B searches, no search needed:
+Smoke-test the plumbing against a committed search (approximate numbers -- see
+the header, and algorithm/README.md section 3):
   ./run_algorithm.sh --use-ref -m llama2_7b eval
 EOF
 }
