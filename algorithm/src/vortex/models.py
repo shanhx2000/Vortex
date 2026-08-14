@@ -9,12 +9,20 @@ Ten entries: {Llama-2-7B, Llama-2-13B, Mistral-7B} x {dense, AQLM 2-bit, AQLM
 plus `llama2_7b_aqlm_rvq_uniform`, which applies one threshold across all
 codebooks and exists for the ablation.
 
-`teal_dirname` / `rvq_dirname` are the *canonical* names. They match what is
-committed under `ckpts/` (see `ckpts/README.md`) and, for the entries also
-present in `stats/ref/sparsity_info/teal_sparsities_thresholds_*.jsonl`, what
-`simulator/sparsity.py` matches against. Pipeline runs must NOT write back into
-these directories -- pass `run_tag`, or `run_algorithm.sh --use-ref` to read
-them without writing.
+`teal_dirname` / `rvq_dirname` are the *canonical* names -- what is committed
+under `ckpts/` (see `ckpts/README.md`). Pipeline runs must NOT write back into
+those directories: pass `run_tag`, which appends `-<tag>`, or
+`run_algorithm.sh --use-ref` to read them without writing.
+
+`teal_dirname` equals `key` for every entry, so the directory a reviewer looks
+in is spelled the same as the `-m` argument they typed. It stays a separate
+field because `rvq_dirname` does not follow that rule -- several keys share one
+converted checkpoint -- and because a future entry may need to point at a
+directory it does not name.
+
+The threshold table `simulator/sparsity.py` reads records the same names in its
+`teal_path`, but matches on model identity rather than on that string, so a
+`--run-tag`ged search of your own resolves the same way the committed one does.
 """
 from dataclasses import dataclass
 from typing import Dict, Optional
@@ -64,13 +72,13 @@ MODEL_REGISTRY: Dict[str, ModelSpec] = {
             key="llama2_7b",
             model_mode="regular",
             model_name="meta-llama/Llama-2-7b-hf",
-            teal_dirname="Llama-2-7b-hf-ckpt20251220",
+            teal_dirname="llama2_7b",
         ),
         ModelSpec(
             key="llama2_7b_aqlm",
             model_mode="regular",
             model_name="ISTA-DASLab/Llama-2-7b-AQLM-PV-2Bit-2x8-hf",
-            teal_dirname="Llama-2-7b-AQLM-PV-2Bit-2x8-hf-ckpt20251220",
+            teal_dirname="llama2_7b_aqlm",
         ),
         ModelSpec(
             key="llama2_7b_aqlm_rvq",
@@ -78,7 +86,7 @@ MODEL_REGISTRY: Dict[str, ModelSpec] = {
             base_model_path="meta-llama/Llama-2-7b-hf",
             quant_model_path="ISTA-DASLab/Llama-2-7b-AQLM-PV-2Bit-2x8-hf",
             rvq_dirname="Llama-2-7b-AQLM-PV-2Bit-2x8-hf-rvq",
-            teal_dirname="Llama-2-7b-AQLM-PV-2Bit-2x8-hf-rvq-cb-ckpt20251220",
+            teal_dirname="llama2_7b_aqlm_rvq",
             vq_ctx=_RVQ_CTX_2CB,
         ),
         ModelSpec(
@@ -87,14 +95,14 @@ MODEL_REGISTRY: Dict[str, ModelSpec] = {
             base_model_path="meta-llama/Llama-2-7b-hf",
             quant_model_path="ISTA-DASLab/Llama-2-7b-AQLM-PV-2Bit-2x8-hf",
             rvq_dirname="Llama-2-7b-AQLM-PV-2Bit-2x8-hf-rvq",
-            teal_dirname="Llama-2-7b-AQLM-PV-2Bit-2x8-hf-rvq-uniform-ckpt20251220",
+            teal_dirname="llama2_7b_aqlm_rvq_uniform",
             vq_ctx=_RVQ_CTX_2CB_UNIFORM,
         ),
         ModelSpec(
             key="llama2_13b",
             model_mode="regular",
             model_name="meta-llama/Llama-2-13b-hf",
-            teal_dirname="Llama-2-13b-hf",
+            teal_dirname="llama2_13b",
         ),
         ModelSpec(
             key="llama2_13b_aqlm",
@@ -102,7 +110,7 @@ MODEL_REGISTRY: Dict[str, ModelSpec] = {
             # NOT "...AQLM-PV-2Bit-2x8-hf" (that repo does not exist on the
             # Hub for the 13B model).
             model_name="ISTA-DASLab/Llama-2-13b-AQLM-2Bit-2x8-hf",
-            teal_dirname="Llama-2-13b-AQLM-2Bit-2x8-hf",
+            teal_dirname="llama2_13b_aqlm",
         ),
         ModelSpec(
             key="llama2_13b_aqlm_rvq",
@@ -110,20 +118,20 @@ MODEL_REGISTRY: Dict[str, ModelSpec] = {
             base_model_path="meta-llama/Llama-2-13b-hf",
             quant_model_path="ISTA-DASLab/Llama-2-13b-AQLM-2Bit-2x8-hf",
             rvq_dirname="Llama-2-13b-AQLM-2Bit-2x8-hf-rvq",
-            teal_dirname="Llama-2-13b-AQLM-2Bit-2x8-hf-rvq-cb",
+            teal_dirname="llama2_13b_aqlm_rvq",
             vq_ctx=_RVQ_CTX_2CB,
         ),
         ModelSpec(
             key="mistral_7b",
             model_mode="regular",
             model_name="mistralai/Mistral-7B-Instruct-v0.2",
-            teal_dirname="Mistral-7B-Instruct-v0.2",
+            teal_dirname="mistral_7b",
         ),
         ModelSpec(
             key="mistral_7b_aqlm",
             model_mode="regular",
             model_name="ISTA-DASLab/Mistral-7B-Instruct-v0.2-AQLM-2Bit-2x8",
-            teal_dirname="Mistral-7B-Instruct-v0.2-AQLM-2Bit-2x8",
+            teal_dirname="mistral_7b_aqlm",
         ),
         ModelSpec(
             key="mistral_7b_aqlm_rvq",
@@ -131,7 +139,7 @@ MODEL_REGISTRY: Dict[str, ModelSpec] = {
             base_model_path="mistralai/Mistral-7B-Instruct-v0.2",
             quant_model_path="ISTA-DASLab/Mistral-7B-Instruct-v0.2-AQLM-2Bit-2x8",
             rvq_dirname="Mistral-7B-Instruct-v0.2-AQLM-2Bit-2x8-rvq",
-            teal_dirname="Mistral-7B-Instruct-v0.2-AQLM-2Bit-2x8-rvq-cb-ckpt20260402",
+            teal_dirname="mistral_7b_aqlm_rvq",
             vq_ctx=_RVQ_CTX_2CB,
         ),
     ]

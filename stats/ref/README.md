@@ -23,13 +23,12 @@ switching between them is one flag:
 
 | Flag | Reads | Is |
 | --- | --- | --- |
-| *(none)*, or `--use-ref` | `stats/ref/` | what the AE submission expects |
-| `--use-simulation` | `stats/` | what you just generated |
-| `--use-submitted` | `stats/initial_submission/` | what the *submitted* paper used |
+| *(none)*, or `--use-ref` | `stats/ref/` | what the paper carries |
+| `--use-simulation` | `stats/simulation/` | the C1 run you just made |
+| `--use-algorithm` | `stats/algorithm/` | the C2 run you just made |
 
-Output always goes to `figures/`, whichever source is read. `--use-submitted`
-covers the B-series only: the submitted paper's algorithm data was never
-separated out, so AA-AE fall back to `ref` under it.
+The two switches are independent, one per component, and output always goes to
+`figures/` whichever source is read.
 
 ## What is in `simulation/`
 

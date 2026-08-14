@@ -19,23 +19,20 @@ dev_ckpts/
 # Generated outputs. stats/ mixes generated and committed content:
 #   stats/simulation/          C1 output, generated  -> ignored
 #   stats/algorithm/           C2 output, generated  -> ignored
-#   stats/ref/                 committed: what the AE submission expects
-#   stats/initial_submission/  committed: the submitted paper's data
-# ref/ and initial_submission/ mirror the generated layout, so the same
-# relative path names the same file in all three.
+#   stats/ref/                 committed: what the paper carries
+# ref/ mirrors the generated layout, so the same relative path names the same
+# file in both.
 stats/simulation/*
 !stats/simulation/.gitkeep
 stats/algorithm/*
 !stats/algorithm/.gitkeep
 
-# figures/ is where every render writes -- generated, ignored. Two
-# subdirectories are committed instead:
-#   figures/ref/                 what the default (stats/ref/) render reproduces
-#   figures/initial_submission/  the renders that went into the submitted paper
+# figures/ is where every render writes -- generated, ignored. One
+# subdirectory is committed instead:
+#   figures/ref/   what the default (stats/ref/) render reproduces
 figures/*
 !figures/.gitkeep
 !figures/ref/
-!figures/initial_submission/
 
 # algorithm/: rvq_models/ is always regenerable from a public AQLM checkpoint
 # (run_prepare_rvq), unlike ckpts/teal_output/'s search results which cost

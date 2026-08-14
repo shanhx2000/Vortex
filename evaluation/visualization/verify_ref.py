@@ -107,7 +107,6 @@ def main():
     if not have_tools:
         print("\npdftoppm and/or Pillow unavailable -- rendered but no sheets built.")
         print(f"Compare by hand: {out_dir} vs {_paths.REF_FIGURES_DIR}")
-        print(f"  (submitted-era renders, for reference: {_paths.INITIAL_SUBMISSION_DIR})")
         return 0
 
     sheet_dir = out_dir / "comparison"

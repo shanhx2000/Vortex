@@ -3,40 +3,30 @@
 Every plot script asks this module where its data lives instead of hard-coding a
 path, so one flag redirects all of them.
 
-Three data sources, one output location
----------------------------------------
-`stats/ref/` and `stats/initial_submission/` mirror the layout a run writes, so
-the same relative path names the same file in all three:
+Two data sources, one output location
+-------------------------------------
+`stats/ref/` mirrors the layout a run writes, so the same relative path names
+the same file in both:
 
     stats/{simulation,algorithm}/<name>       what you just produced
-    stats/ref/{simulation,algorithm}/<name>   what the AE submission expects [DEFAULT]
-    stats/initial_submission/simulation/<name>   what the submitted paper used
+    stats/ref/{simulation,algorithm}/<name>   what the paper carries [DEFAULT]
 
 `simulation/` holds C1's results and `algorithm/` holds C2's, under the same
-filenames in every source.
+filenames in either source.
 
     --use-ref         (default)  both halves from stats/ref/
     --use-simulation             B-series (C1) from stats/simulation/
     --use-algorithm              A-series (C2) from stats/algorithm/
-    --use-submitted              B-series from stats/initial_submission/
 
 **The default reads `ref`, so a fresh clone draws the paper's figures without
 running anything.** The two component switches are independent, because the two
-components are: a reviewer who ran only C1 passes `--use-simulation` and still
-gets the A-series from `ref`. `--use-simulation` and `--use-submitted` both
-select the B-series source, so they cannot be combined.
+components are: someone who ran only C1 passes `--use-simulation` and still gets
+the A-series from `ref`.
 
 Every mode writes to `figures/`. There is no per-mode output directory: the
-figures are the same eleven files whichever data made them, and a reviewer
-comparing runs should compare `figures/` against `figures/ref/`, not hunt
-through parallel directories.
-
-`ref` and `submitted` differ, and the difference is the point. Between
-submission and camera-ready two energy corrections landed (a softmax unit
-charged static+dynamic where only static was real, and a softmax leakage term
-double-counted in the baselines' core power). They move BA, BB, BC, BD and BE by
-about 1%; every speedup and every A-series figure is untouched. `stats/ref/`
-carries the corrected numbers, which are the ones in the paper.
+figures are the same eleven files whichever data made them, and a comparison
+between runs is `figures/` against `figures/ref/`, not a hunt through parallel
+directories.
 
 One further reference input sits under `stats/ref/`, because it is equally
 "what the AE submission expects" and is not produced by either component alone:
@@ -50,17 +40,12 @@ Where figures land
 figures/                     every run writes here. Generated, git-ignored.
 figures/ref/                 committed reference set. What the default
                              `--use-ref` render reproduces, byte for byte.
-figures/initial_submission/  the renders that went into the submitted paper.
 
 The switches exist to separate two failure modes that otherwise look identical.
 If a regenerated figure looks wrong, is the plot code wrong or is the data
 different? The default render answers that: match `figures/ref/` and the code is
 faithful, so any difference under `--use-simulation` / `--use-algorithm` is real
 change in the numbers.
-
-`--use-submitted` has no algorithm counterpart: the submitted paper's A-series
-data was never separated out, so AA-AE come from `ref` unless `--use-algorithm`
-says otherwise.
 """
 import argparse
 import sys
@@ -73,11 +58,10 @@ SIM_DIR = REPO_ROOT / "simulator"
 HW_CONFIG_DIR = SIM_DIR / "hw_configs"
 
 STATS_DIR = REPO_ROOT / "stats"
-# The three sources mirror each other; `simulation/` is the subdirectory a run
+# The two sources mirror each other; `simulation/` is the subdirectory a run
 # writes into, and sim_data() appends it to whichever root is selected.
 SIM_RESULTS_ROOT = STATS_DIR
 REF_ROOT = STATS_DIR / "ref"
-SUBMITTED_ROOT = STATS_DIR / "initial_submission"
 RESULTS_SUBDIR = "simulation"     # C1 output
 ALGORITHM_SUBDIR = "algorithm"    # C2 output: the accuracy CSVs behind AC/AD/AE
 
@@ -85,7 +69,6 @@ SPARSITY_INFO_DIR = REF_ROOT / "sparsity_info"
 
 FIGURES_DIR = REPO_ROOT / "figures"
 REF_FIGURES_DIR = FIGURES_DIR / "ref"
-INITIAL_SUBMISSION_DIR = FIGURES_DIR / "initial_submission"
 
 # Some plot scripts import simulator modules (BC reads the hardware config).
 if str(SIM_DIR) not in sys.path:
@@ -93,14 +76,13 @@ if str(SIM_DIR) not in sys.path:
 
 # One source per component, independently selectable. Both default to ref so a
 # fresh clone draws the paper's figures with no arguments and nothing run.
-_SIM_SOURCE = "ref"       # "ref" | "simulation" | "submitted"   -- B-series
+_SIM_SOURCE = "ref"       # "ref" | "simulation"                  -- B-series
 _ALGO_SOURCE = "ref"      # "ref" | "algorithm"                  -- A-series
 _OUT_DIR = FIGURES_DIR
 
 _SIM_ROOTS = {
     "ref": REF_ROOT,
     "simulation": SIM_RESULTS_ROOT,
-    "submitted": SUBMITTED_ROOT,
 }
 _ALGO_ROOTS = {
     "ref": REF_ROOT,
@@ -129,12 +111,6 @@ def add_common_args(parser):
              "--use-simulation; pass both to plot a full run of your own.",
     )
     parser.add_argument(
-        "--use-submitted", action="store_true",
-        help="draw the hardware figures from stats/initial_submission/ instead "
-             "-- the data behind the SUBMITTED paper. BA/BB/BC/BD/BE differ "
-             "from ref by ~1%% in energy; see this module's docstring for why.",
-    )
-    parser.add_argument(
         "--no-svg", action="store_true",
         help="skip the companion .svg written next to each .pdf (the SVGs exist "
              "so Markdown previews can display the figures)",
@@ -152,16 +128,12 @@ def apply_common_args(args):
     _style.set_svg(not getattr(args, "no_svg", False))
 
     sim = bool(getattr(args, "use_simulation", False))
-    sub = bool(getattr(args, "use_submitted", False))
     alg = bool(getattr(args, "use_algorithm", False))
     ref = bool(getattr(args, "use_ref", False))
-    if sim and sub:
-        raise SystemExit("--use-simulation and --use-submitted both select the "
-                         "hardware-figure source; pick one")
-    if ref and (sim or sub or alg):
+    if ref and (sim or alg):
         raise SystemExit("--use-ref means both halves from stats/ref/, which is "
                          "already the default; drop it, or drop the other flag")
-    _SIM_SOURCE = "simulation" if sim else "submitted" if sub else "ref"
+    _SIM_SOURCE = "simulation" if sim else "ref"
     _ALGO_SOURCE = "algorithm" if alg else "ref"
     # One output location for every source -- see the module docstring.
     _OUT_DIR = (Path(args.out_dir).expanduser().resolve()
@@ -184,7 +156,7 @@ def parse_args(description, extra=None):
 
 
 def source():
-    """The hardware-figure source: "ref" | "simulation" | "submitted"."""
+    """The hardware-figure source: "ref" | "simulation"."""
     return _SIM_SOURCE
 
 
@@ -195,10 +167,6 @@ def algorithm_source():
 
 def using_ref():
     return _SIM_SOURCE == "ref" and _ALGO_SOURCE == "ref"
-
-
-def using_submitted():
-    return _SIM_SOURCE == "submitted"
 
 
 def results_dir():
@@ -259,8 +227,3 @@ def reference_figure(name):
     what a correct run should reproduce."""
     return REF_FIGURES_DIR / name
 
-
-def submitted_figure(name):
-    """The render that went into the submitted paper. Kept only so an AE-era
-    change can be seen; not what a run is expected to reproduce."""
-    return INITIAL_SUBMISSION_DIR / name

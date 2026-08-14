@@ -22,7 +22,7 @@ Layout
 These scripts only ever *write*, so they resolve `stats/simulation/`. Reading a
 different data set is a plotting concern, handled by
 `evaluation/visualization/_paths.py`'s `--use-ref` / `--use-simulation` /
-`--use-submitted`.
+`--use-algorithm`.
 """
 import sys
 from pathlib import Path

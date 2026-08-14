@@ -3,7 +3,6 @@
     python plot_all.py                    # from stats/ref/ -> figures/   [default]
     python plot_all.py --use-simulation   # hardware figures from your C1 run
     python plot_all.py --use-algorithm    # algorithm figures from your C2 run
-    python plot_all.py --use-submitted    # hardware figures, submitted paper
     python plot_all.py --only BA BB       # a subset, by index
 
 The default reads the committed reference data, so a fresh clone reproduces

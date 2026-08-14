@@ -20,12 +20,19 @@ Run ids are `<YYYYMMDD-HHMMSS>_<groups>`, so they sort chronologically.
 `outputs[]` records the size, row count, mtime and **md5** of every canonical
 file the run was responsible for. That is what makes the record useful later:
 
-- **Which run produced this CSV?** md5 the file, grep the manifests.
+- **Which run produced this CSV?** md5 the file, grep the manifests. Five of the
+  six files in `stats/ref/simulation/` resolve this way; the sixth,
+  `vortex_forceflow_evaluation_results.csv`, was assembled from more than one
+  run and matches none of them exactly.
 - **Is a figure built on current data?** Compare the CSV's md5 against the
   newest manifest that lists it.
-- **Was the simulator modified at the time?** `environment.git_commit` and
-  `git_dirty`. A run recorded with `git_dirty: true` was made from a working
-  tree that does not exist in history — treat its numbers as unreproducible.
+
+**`environment.git_commit` does not resolve in this repository.** These runs
+were made in the private development tree this artifact was split out of, so
+every hash in them refers to a history that is not published here, and every run
+is recorded `git_dirty: true` — made from a working tree that never existed as a
+commit even there. Treat the commit field as a note-to-self, not as something
+you can check out; the md5s are the part that still works.
 
 ## Committed vs. ignored
 

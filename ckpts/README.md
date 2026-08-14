@@ -9,44 +9,73 @@ by `algorithm/`; see [`../algorithm/README.md`](../algorithm/README.md).
 
 ## `teal_output/`
 
-One subdirectory per model, holding the greedy search's final per-layer
-threshold tables:
+One directory per model, holding the greedy search's final per-layer threshold
+tables:
 
 ```
-<model>/lookup_v8True/layer-N/results.csv     sparsity -> threshold, per projection
+<model key>/lookup_v8True/layer-N/results.csv   sparsity -> threshold, per projection
 ```
 
-Two are committed, 5.2 MB:
+All ten registry entries are committed, 29 MB:
 
-| Directory | Registry key | Method |
-| --- | --- | --- |
-| `Llama-2-7b-AQLM-PV-2Bit-2x8-hf-ckpt20251220/` | `llama2_7b_aqlm` | uniform (TEAL) |
-| `Llama-2-7b-AQLM-PV-2Bit-2x8-hf-rvq-cb-ckpt20251220/` | `llama2_7b_aqlm_rvq` | codebook-wise (ours) |
+| Directory | Method | Layers |
+| --- | --- | ---: |
+| `llama2_7b/` | dense baseline | 32 |
+| `llama2_7b_aqlm/` | uniform (TEAL) | 32 |
+| `llama2_7b_aqlm_rvq/` | codebook-wise (ours) | 32 |
+| `llama2_7b_aqlm_rvq_uniform/` | one threshold across codebooks — the φ ablation's comparison point | 32 |
+| `llama2_13b/` | dense baseline | 40 |
+| `llama2_13b_aqlm/` | uniform (TEAL) | 40 |
+| `llama2_13b_aqlm_rvq/` | codebook-wise (ours) | 40 |
+| `mistral_7b/` | dense baseline | 32 |
+| `mistral_7b_aqlm/` | uniform (TEAL) | 32 |
+| `mistral_7b_aqlm_rvq/` | codebook-wise (ours) | 32 |
 
-These are the canonical names `algorithm/src/vortex/models.py` resolves to, so a
-pipeline call **without** `--run-tag` lands here. That is why every documented
-command passes one — see `algorithm/README.md` §2.
+**The directory is named after the registry key**, so it is spelled exactly the
+way you spell it on the command line: the table `-m llama2_13b -w codebookwise`
+reads is `llama2_13b_aqlm_rvq/`. `algorithm/src/vortex/models.py` is the
+mapping, and these are the *canonical* names — a pipeline call **without**
+`--run-tag` writes here. That is why every documented command passes one; see
+`algorithm/README.md` §2. `--use-ref` is the explicit read-only way in.
 
-They exist so `eval` can be run without paying for `search` first: roughly 1.5 h
-for uniform and 26.5 h for codebook-wise on an A100, for this one model. Every
-other model/method combination has to be searched.
+Renaming a directory is safe as far as the simulator is concerned:
+`simulator/sparsity.py` joins on model identity (mode, model name, vector
+length), not on this path. Rename in `models.py` and here together, and the
+`teal_path` recorded in `stats/ref/sparsity_info/` becomes stale as
+documentation but breaks nothing.
 
-**Do not rename these directories.** `simulator/sparsity.py` matches on the
-directory name as a suffix; renaming breaks the join silently, and ops simply
-get no sparsity info.
+### What these save, and what they do not
+
+They exist so `greedyopt` — the expensive half of `search` — can be skipped:
+measured 26.5 h for codebook-wise and 1.5 h for uniform on an A100, per model.
+
+They do **not** make `eval` free. A `lookup/` table stores quantiles, which
+`SparsifyFn.set_threshold` converts to magnitudes through whichever histogram is
+attached, so a table is only numerically exact **paired with the histograms it
+was searched against** — and those are not committed (see below). Pairing a
+committed table with freshly regenerated histograms builds a sparse model at
+approximately the intended sparsity; it does not reproduce the perplexity the
+table's own search measured. `algorithm/README.md` §3 has the full argument.
+
+So the cheap path is `grab_acts` + these tables + `ppl_test`, not `ppl_test`
+alone:
+
+```bash
+./run_algorithm.sh --use-ref -m llama2_13b eval
+```
 
 ### What is not committed
 
-- **`histograms/` and `activations/`** — `grab_acts`' intermediate output, several
-  GB per model. They have to exist on disk before `greedyopt` or `ppl_test` can
-  construct a sparse model, so a fresh run regenerates them; they are just far
-  too large for git.
-- **Every other model/method combination.** Regenerate with
-  `./run_algorithm.sh -m <model> -w <method> search`.
-
-A `lookup/` table is only numerically valid **paired with the histogram it was
-searched against** — the stored values are quantiles, converted to magnitudes
-through whichever histogram is attached. See `algorithm/README.md` §3.
+- **`histograms/` and `activations/`** — `grab_acts`' intermediate output,
+  several GB per model. They must exist on disk before `greedyopt` or `ppl_test`
+  can construct a sparse model, so a fresh run regenerates them; they are simply
+  far too large for git.
+- **The φ variants.** The φ-function ablation (figure AE) compares ℓ₁ / ℓ₂ / ℓ∞
+  searches, which live in sibling `lookup_v8True_phil*/` directories. Only the
+  ℓ₁ table each entry defaults to is committed. Note that `--phi-func` currently
+  selects the metric for a *search* but does not change which lookup directory
+  `eval` reads — `pipelines.py` derives that suffix from `vec_length`/`use_abs`
+  alone. Regenerating AE means running the sweep, not passing a flag.
 
 ## `rvq_models/`
 
@@ -58,3 +87,17 @@ originals.
 ```bash
 ./run_algorithm.sh -m llama2_7b -w codebookwise prepare
 ```
+
+## Provenance
+
+`llama2_7b_aqlm/` and `llama2_7b_aqlm_rvq/` are the searches the published
+Llama-2-7B numbers came from. The other eight were added when this repository
+was split out, from the same searches that produced
+`stats/ref/sparsity_info/teal_sparsities_thresholds_20260402_231905.jsonl` —
+that file's `teal_path` field names them, and every path in it resolves here.
+
+One caveat worth stating: `mistral_7b_aqlm_rvq/` is the `20260402` search, whose
+provenance we have not fully reconstructed. It is what the published Mistral-7B
+thresholds were derived from, which is why it is the copy that ships, but a
+re-run may not land on it exactly — see `algorithm/README.md` §3 on why searches
+do not reproduce across environments.

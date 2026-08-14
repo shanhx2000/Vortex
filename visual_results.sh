@@ -7,7 +7,6 @@
 #   ./visual_results.sh -l                 # list figure indices
 #   ./visual_results.sh --use-simulation   # BA-BF from your own C1 run
 #   ./visual_results.sh --use-algorithm    # AC-AE from your own C2 run
-#   ./visual_results.sh --use-submitted    # BA-BF from the submitted paper's data
 #
 # **Reads the committed reference data by default**, so this works on a fresh
 # clone with no simulation and reproduces figures/ref/ byte for byte. The two

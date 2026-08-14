@@ -2,7 +2,7 @@
     {
         "model_mode": "regular",
         "model_name": "meta-llama/Llama-2-7b-hf",
-        "teal_path": "ckpts/teal_output/Llama-2-7b-hf-ckpt20251220",
+        "teal_path": "ckpts/teal_output/llama2_7b",
         "sparsities": [
             0.05,
             0.1,
@@ -15430,7 +15430,7 @@
     {
         "model_mode": "regular",
         "model_name": "ISTA-DASLab/Llama-2-7b-AQLM-PV-2Bit-2x8-hf",
-        "teal_path": "ckpts/teal_output/Llama-2-7b-AQLM-PV-2Bit-2x8-hf-ckpt20251220",
+        "teal_path": "ckpts/teal_output/llama2_7b_aqlm",
         "sparsities": [
             0.05,
             0.1,
@@ -30858,7 +30858,7 @@
     {
         "model_mode": "regular",
         "model_name": "mistralai/Mistral-7B-Instruct-v0.2",
-        "teal_path": "ckpts/teal_output/Mistral-7B-Instruct-v0.2",
+        "teal_path": "ckpts/teal_output/mistral_7b",
         "sparsities": [
             0.05,
             0.1,
@@ -46286,7 +46286,7 @@
     {
         "model_mode": "regular",
         "model_name": "ISTA-DASLab/Mistral-7B-Instruct-v0.2-AQLM-2Bit-2x8",
-        "teal_path": "ckpts/teal_output/Mistral-7B-Instruct-v0.2-AQLM-2Bit-2x8",
+        "teal_path": "ckpts/teal_output/mistral_7b_aqlm",
         "sparsities": [
             0.05,
             0.1,
@@ -61714,7 +61714,7 @@
     {
         "model_mode": "vq",
         "model_name": "ckpts/rvq_models/Llama-2-7b-AQLM-PV-2Bit-2x8-hf-rvq",
-        "teal_path": "ckpts/teal_output/Llama-2-7b-AQLM-PV-2Bit-2x8-hf-rvq-cb-ckpt20251220",
+        "teal_path": "ckpts/teal_output/llama2_7b_aqlm_rvq",
         "sparsities": [
             0.05,
             0.1,
@@ -98650,7 +98650,7 @@
     {
         "model_mode": "vq",
         "model_name": "ckpts/rvq_models/Mistral-7B-Instruct-v0.2-AQLM-2Bit-2x8-rvq",
-        "teal_path": "ckpts/teal_output/Mistral-7B-Instruct-v0.2-AQLM-2Bit-2x8-rvq-cb-ckpt20260402",
+        "teal_path": "ckpts/teal_output/mistral_7b_aqlm_rvq",
         "sparsities": [
             0.05,
             0.1,
@@ -135586,7 +135586,7 @@
     {
         "model_mode": "vq",
         "model_name": "ckpts/rvq_models/Llama-2-13b-AQLM-2Bit-2x8-hf-rvq",
-        "teal_path": "ckpts/teal_output/Llama-2-13b-AQLM-2Bit-2x8-hf-rvq-cb",
+        "teal_path": "ckpts/teal_output/llama2_13b_aqlm_rvq",
         "sparsities": [
             0.05,
             0.1,

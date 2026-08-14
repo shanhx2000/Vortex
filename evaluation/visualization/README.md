@@ -7,7 +7,6 @@ One script per paper figure, named by its two-letter index. `plot_all.py
 python plot_all.py                    # all figures from stats/ref/ -> figures/
 python plot_all.py --only BA BD       # a subset
 python plot_all.py --use-simulation   # from stats/simulation/ instead
-python plot_all.py --use-submitted    # from the submitted paper's data
 python verify_ref.py                  # render + build comparison sheets
 python BA_baseline_vs_vortex.py       # any script standalone
 ```
