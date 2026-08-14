@@ -1,0 +1,123 @@
+{
+  "general": {
+    "frequency": 500,
+    "dram": {
+      "type": "hbm",
+      "power": {
+        "static": 1.0,
+        "dynamic": 0.0,
+        "energy_per_bits": 0.000001
+      }
+    }
+  },
+  "modules": {
+    "systolic array": {
+      "num": 1,
+      "rows": 32,
+      "cols": 32,
+      "dtype": "fp16",
+      "acc_dtype": "fp16",
+      "power": {
+        "static": 1.0,
+        "dynamic": 0.01
+      }
+    },
+    "lut array": {
+      "num": 320,
+      "num_blocks": 256,
+      "block_size": 16,
+      "num_ports": {
+        "r": 0,
+        "w": 0,
+        "rw": 1
+      },
+      "power": {
+        "static": 0.2,
+        "dynamic": 0.002
+      }
+    },
+    "adder tree": {
+      "num": 10,
+      "width": 32,
+      "dtype": "fp16",
+      "power": {
+        "static": 0.2,
+        "dynamic": 0.002
+      }
+    },
+    "vpu": {
+      "vfadd": {
+        "num": 4,
+        "width": 32,
+        "dtype": "fp16"
+      },
+      "vfmul": {
+        "num": 4,
+        "width": 32,
+        "dtype": "fp16"
+      },
+      "vfabs": {
+        "num": 4,
+        "width": 32,
+        "dtype": "fp16"
+      },
+      "power": {
+        "static": 0.1,
+        "dynamic": 0.001
+      }
+    },
+    "sfu": {
+      "softmax": {
+        "num": 1,
+        "width": 32,
+        "dtype": "fp16"
+      }
+    }
+  },
+  "buffers": {
+    "s_weight": {
+      "num_banks": 1,
+      "num_blocks": 1024,
+      "block_size": 512,
+      "double_buffer": true,
+      "power": {
+        "static": 0.1,
+        "dynamic": 0.0,
+        "energy_per_bits": 0.0000001
+      }
+    },
+    "s_act": {
+      "num_banks": 1,
+      "num_blocks": 1024,
+      "block_size": 512,
+      "double_buffer": true,
+      "power": {
+        "static": 0.1,
+        "dynamic": 0.0,
+        "energy_per_bits": 0.0000001
+      }
+    },
+    "s_output": {
+      "num_banks": 1,
+      "num_blocks": 1024,
+      "block_size": 512,
+      "double_buffer": true,
+      "power": {
+        "static": 0.1,
+        "dynamic": 0.0,
+        "energy_per_bits": 0.0000001
+      }
+    },
+    "s_parameter": {
+      "num_banks": 1,
+      "num_blocks": 128,
+      "block_size": 256,
+      "double_buffer": false,
+      "power": {
+        "static": 0.02,
+        "dynamic": 0.0,
+        "energy_per_bits": 0.00000005
+      }
+    }
+  }
+}

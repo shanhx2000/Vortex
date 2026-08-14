@@ -1,0 +1,37 @@
+{
+  "run_id": "20260806-204412_power_area",
+  "status": "ok",
+  "started": "2026-08-06T20:44:12-04:00",
+  "finished": "2026-08-06T20:45:10",
+  "duration_s": 58,
+  "command": "./run_all_simulation.sh power_area",
+  "groups": [
+    "power_area"
+  ],
+  "failed_groups": [],
+  "models": [
+    "mistral_7b",
+    "llama_2_13b",
+    "llama-2-7b"
+  ],
+  "parallelism": 1,
+  "jobs": 1,
+  "outputs": [
+    {
+      "file": "vortex_power_area_breakdown.json",
+      "present": true,
+      "path": "stats/simulation/vortex_power_area_breakdown.json",
+      "rows": null,
+      "bytes": 597,
+      "md5": "658e4ebdf80705e67e342874ae793ecb",
+      "mtime": "2026-08-06T20:45:09"
+    }
+  ],
+  "environment": {
+    "host": "hl279-cmp-00.egr.duke.edu",
+    "python": "3.8.8",
+    "cpu_count": 48,
+    "git_commit": "0ff26e4bfa88bf9b31c3b008d51930be84f85971",
+    "git_dirty": true
+  }
+}

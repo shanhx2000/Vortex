@@ -1,0 +1,73 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+
+# Virtual environments (scripts/setup_env.sh --venv creates ./.venv,
+# scripts/setup_env.sh algorithm --venv creates ./.venv-algorithm)
+.venv/
+.venv-algorithm/
+venv/
+env/
+
+# Scratch copies of stats/ and ckpts/ -- development and verification runs that
+# are not the reference data. Local only, never committed.
+dev_stats/
+dev_ckpts/
+
+# Generated outputs. stats/ mixes generated and committed content:
+#   stats/simulation/          C1 output, generated  -> ignored
+#   stats/algorithm/           C2 output, generated  -> ignored
+#   stats/ref/                 committed: what the AE submission expects
+#   stats/initial_submission/  committed: the submitted paper's data
+# ref/ and initial_submission/ mirror the generated layout, so the same
+# relative path names the same file in all three.
+stats/simulation/*
+!stats/simulation/.gitkeep
+stats/algorithm/*
+!stats/algorithm/.gitkeep
+
+# figures/ is where every render writes -- generated, ignored. Two
+# subdirectories are committed instead:
+#   figures/ref/                 what the default (stats/ref/) render reproduces
+#   figures/initial_submission/  the renders that went into the submitted paper
+figures/*
+!figures/.gitkeep
+!figures/ref/
+!figures/initial_submission/
+
+# algorithm/: rvq_models/ is always regenerable from a public AQLM checkpoint
+# (run_prepare_rvq), unlike ckpts/teal_output/'s search results which cost
+# GPU-hours -- see ckpts/README.md. Not committed.
+ckpts/rvq_models/*
+!ckpts/rvq_models/.gitkeep
+
+# ckpts/teal_output/<model>/lookup*/ (the greedy search's final per-layer
+# results.csv) IS committed -- see ckpts/README.md. histograms/ and
+# activations/ are grab_acts' multi-GB intermediate artifacts (one model's
+# histograms/ alone is ~5 GB) and are not, even though grab_acts writes them
+# into these same directories: they have to exist locally to construct a
+# sparse model, they are just far too large for git.
+ckpts/teal_output/*/histograms/
+ckpts/teal_output/*/activations/
+
+# ...and neither are symlinks standing in for them: a symlink to data outside
+# this repository is dangling for everyone but the machine that made it.
+ckpts/teal_output/*/activations
+ckpts/teal_output/*/histograms
+
+# Run records. Manifests and the index are committed -- they are how a figure
+# is traced back to the run that produced its data. Per-job stdout is not:
+# tqdm progress bars make it megabytes per run and it has no provenance value.
+logs/runs/*/jobs/
+logs/.index.lock
+
+# algorithm/ pipeline runs: no manifest/index system (unlike run_simulation.sh's
+# logs/runs/), so nothing under here is curated provenance. `run_algorithm.sh
+# gather` writes its threshold table here too -- regenerable, so not committed.
+logs/algorithm/
+
+# Editor
+.vscode/
+.idea/

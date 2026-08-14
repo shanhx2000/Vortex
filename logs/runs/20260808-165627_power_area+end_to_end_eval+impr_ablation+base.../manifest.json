@@ -1,0 +1,67 @@
+{
+  "run_id": "20260808-165627_power_area+end_to_end_eval+impr_ablation+base...",
+  "status": "ok",
+  "started": "2026-08-08T16:56:27-04:00",
+  "finished": "2026-08-08T17:03:43",
+  "duration_s": 436,
+  "command": "./run_all_simulation.sh -j 48 power_area end_to_end_eval impr_ablation baseline_e2e_small",
+  "groups": [
+    "power_area",
+    "end_to_end_eval",
+    "impr_ablation",
+    "baseline_e2e_small"
+  ],
+  "failed_groups": [],
+  "models": [
+    "mistral_7b",
+    "llama_2_13b",
+    "llama-2-7b"
+  ],
+  "parallelism": 48,
+  "jobs": 469,
+  "outputs": [
+    {
+      "file": "baseline_evaluation_results.csv",
+      "present": true,
+      "path": "stats/simulation/baseline_evaluation_results.csv",
+      "rows": 396,
+      "bytes": 115875,
+      "md5": "b4305a44f2a872ecd3a1505c731c9834",
+      "mtime": "2026-08-08T17:03:43"
+    },
+    {
+      "file": "vortex_evaluation_results.csv",
+      "present": true,
+      "path": "stats/simulation/vortex_evaluation_results.csv",
+      "rows": 336,
+      "bytes": 98897,
+      "md5": "65b127235a60ea2bbd43db72299db5c7",
+      "mtime": "2026-08-08T16:58:23"
+    },
+    {
+      "file": "vortex_power_area_breakdown.json",
+      "present": true,
+      "path": "stats/simulation/vortex_power_area_breakdown.json",
+      "rows": null,
+      "bytes": 596,
+      "md5": "81e2ac18650daad9dfcda0a991c4bdf5",
+      "mtime": "2026-08-08T16:57:28"
+    },
+    {
+      "file": "vortex_projection_attention_intensive_results.csv",
+      "present": true,
+      "path": "stats/simulation/vortex_projection_attention_intensive_results.csv",
+      "rows": 72,
+      "bytes": 22537,
+      "md5": "507736345e6f9b675ac1beba237ea89c",
+      "mtime": "2026-08-08T17:03:40"
+    }
+  ],
+  "environment": {
+    "host": "hl279-cmp-00.egr.duke.edu",
+    "python": "3.8.8",
+    "cpu_count": 48,
+    "git_commit": "42deaf9363a0aea6516a3d2b7b54de1bd1170dc8",
+    "git_dirty": true
+  }
+}

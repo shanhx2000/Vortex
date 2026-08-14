@@ -1,0 +1,14 @@
+# Plot scripts. Installed into the SAME environment as simulator/requirements.txt
+# (conda env `sim`): the two sets do not conflict -- both want pandas>=1.2 and
+# nothing else overlaps -- and figure BC imports simulator modules to read the
+# hardware config, so a plotting-only environment would fail on it anyway.
+# The one hard constraint here is matplotlib>=3.4, for Figure.supxlabel (AD, BF).
+matplotlib>=3.4
+numpy>=1.20
+pandas>=1.2
+scikit-learn>=0.24     # AA only: k-means for the vector-quantization illustration
+
+# Optional, for verify_ref.py's image comparison. Without them the script
+# still renders every figure but cannot diff it against the reference.
+Pillow>=8.0
+# also needs the `pdftoppm` binary (poppler-utils)

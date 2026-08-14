@@ -1,0 +1,5 @@
+# Simulator (ccsim) dependencies.
+# Everything else the simulator imports is Python standard library.
+# Verified working on Python 3.8.8 with the versions below.
+pandas>=1.2
+tqdm>=4.59

@@ -1,0 +1,7 @@
+
+===== baseline_kernel =====
+  1 job(s), 1 at a time
+  [ok]   kernel_baseline
+
+===== done in 2s; results in stats/simulation =====
+  run record: logs/runs/20260813-010703_baseline_kernel/manifest.json

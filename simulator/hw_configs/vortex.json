@@ -1,0 +1,107 @@
+{
+  "general": {
+    "frequency": 500,
+    "dram": {
+      "type": "hbm",
+      "power": {
+        "static": 1.0,
+        "dynamic": 0.0,
+        "energy_per_bits": 1e-06
+      }
+    }
+  },
+  "modules": {
+    "systolic array": {
+      "num": 1,
+      "rows": 32,
+      "cols": 32,
+      "dtype": "fp16",
+      "acc_dtype": "fp16",
+      "power": {
+        "static": 1.0,
+        "dynamic": 0.01
+      }
+    },
+    "lut array": {
+      "num": 160,
+      "num_blocks": 256,
+      "block_size": 16,
+      "num_ports": {
+        "r": 0,
+        "w": 0,
+        "rw": 1
+      },
+      "power": {
+        "static": 0.2,
+        "dynamic": 0.002
+      }
+    },
+    "adder tree": {
+      "num": 4,
+      "width": 32,
+      "dtype": "fp16",
+      "power": {
+        "static": 0.2,
+        "dynamic": 0.002
+      }
+    },
+    "vpu": {
+      "vfadd": {
+        "num": 2,
+        "width": 32,
+        "dtype": "fp16"
+      },
+      "vfmul": {
+        "num": 2,
+        "width": 32,
+        "dtype": "fp16"
+      },
+      "vfabs": {
+        "num": 2,
+        "width": 32,
+        "dtype": "fp16"
+      },
+      "adder tree": {
+        "num": 16,
+        "width": 4,
+        "dtype": "fp16"
+      },
+      "power": {
+        "static": 0.1,
+        "dynamic": 0.001
+      }
+    },
+    "quant array": {
+      "num": 1,
+      "width": 16,
+      "dtype": "fp16"
+    },
+    "sfu": {
+      "softmax": {
+        "num": 1,
+        "width": 32,
+        "dtype": "fp16"
+      }
+    }
+  },
+  "buffers": {
+    "s_act_lt": {"block_size": 64, "size": 32768, "num": 2},
+    "s_act_gt": {"block_size": 64, "size": 131072, "num": 2},
+
+    "s_output_lt": {"block_size": 64, "size": 32768, "num": 2},
+    "s_output_gt": {"block_size": 64, "size": 131072, "num": 2},
+
+    "s_wgt_lt": {"block_size": 8, "size": 262144, "num": 8},
+    "s_wgt_gt": {"block_size": 8, "size": 2048, "num": 2},
+
+    "s_codebook_lt": {"block_size": 2, "size": 16384, "num": 4},
+    "s_codebook_gt": {"block_size": 2, "size": 16384, "num": 4},
+
+    "s_wtmp_lt": {"block_size": 64, "size": 0, "num": 0},
+    "s_wtmp_gt": {"block_size": 64, "size": 16384, "num": 2}
+  },
+  "runtime": {
+    "mem_width": 1024,
+    "batch_size": 1
+  }
+}

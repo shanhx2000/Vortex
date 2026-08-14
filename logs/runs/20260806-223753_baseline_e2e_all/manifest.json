@@ -1,0 +1,37 @@
+{
+  "run_id": "20260806-223753_baseline_e2e_all",
+  "status": "ok",
+  "started": "2026-08-06T22:37:53-04:00",
+  "finished": "2026-08-07T03:10:28",
+  "duration_s": 16355,
+  "command": "./run_all_simulation.sh -j 32 baseline_e2e_all",
+  "groups": [
+    "baseline_e2e_all"
+  ],
+  "failed_groups": [],
+  "models": [
+    "mistral_7b",
+    "llama_2_13b",
+    "llama-2-7b"
+  ],
+  "parallelism": 32,
+  "jobs": 396,
+  "outputs": [
+    {
+      "file": "baseline_evaluation_results.csv",
+      "present": true,
+      "path": "stats/simulation/baseline_evaluation_results.csv",
+      "rows": 396,
+      "bytes": 115875,
+      "md5": "b4305a44f2a872ecd3a1505c731c9834",
+      "mtime": "2026-08-07T03:10:28"
+    }
+  ],
+  "environment": {
+    "host": "hl279-cmp-00.egr.duke.edu",
+    "python": "3.8.8",
+    "cpu_count": 48,
+    "git_commit": "6754f4b6ad6ddfdd7b7d6947d81ff8dc3e724e02",
+    "git_dirty": true
+  }
+}

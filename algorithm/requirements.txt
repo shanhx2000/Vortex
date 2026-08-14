@@ -1,0 +1,47 @@
+# Algorithm-side dependencies: TEAL activation-sparsity search + AQLM/RVQ
+# model conversion. Deliberately its own environment (see ../scripts/setup_env.sh
+# algorithm) -- torch + flash-attn + AQLM do not belong in the lightweight
+# simulator/plotting environment simulator/requirements.txt serves.
+#
+# Versions are pinned to what has been tested working for this code path
+# (Python 3.11); see the pin comments below for the two version
+# constraints worth knowing about (transformers pin, AQLM's own torch pin).
+#
+# Package install: pip install -e . (from this directory), *after* these.
+#
+# flash-attn is intentionally NOT listed here: its setup.py imports torch at
+# build time, so it must be installed in its own `pip install` command after
+# torch is already present in the environment (`--no-build-isolation`, or
+# pip's dependency resolver may try to build it before torch lands). See
+# ../scripts/setup_env.sh's `algorithm` branch, which does this as a second
+# step. Without it, flash-attn's setup.py imports torch before torch exists.
+
+torch==2.9.1
+# Pinned, not a lower bound: run_teal.sh's own history records having to
+# recover from an accidental transformers upgrade with
+# `pip install transformers==4.44.1` -- this is the version the ported
+# monkey-patches (teal/teal/self_attn.py's _FA2_forward, teal_rvq's) were
+# written against, e.g. `_flash_attention_forward`'s call signature. A newer
+# transformers is likely to break those, silently or not.
+transformers==4.44.1
+accelerate>=1.10.0
+aqlm[gpu,cpu]==1.1.7
+datasets>=4.0.0
+huggingface-hub>=0.36.0
+tokenizers>=0.19.1,<0.20
+sentencepiece>=0.2.1
+protobuf>=6.32.1
+
+# lm-evaluation-harness: only used for the non-wikitext eval_tasks in
+# ppl_test (wikitext itself uses the AWQ-style manual eval in
+# core/eval/wikitext_eval.py, to route around a known lm_eval bug -- see
+# ../README.md). The research env's requirements.txt pinned an exact git
+# commit (e681968d7bff6d6025cccddc904da7b3a831c9e7) that no longer resolves
+# against the public EleutherAI/lm-evaluation-harness remote (`fatal: remote
+# error: upload-pack: not our ref` -- history was rewritten or it only ever
+# existed on a deleted branch/fork). Using the PyPI release instead.
+lm-eval>=0.4.5
+
+pandas>=2.0
+numpy>=1.26,<3
+tqdm>=4.67

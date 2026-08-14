@@ -1,0 +1,11 @@
+
+===== baseline_kernel =====
+  1 job(s), 1 at a time
+  [ok]   kernel_baseline
+
+===== kernel_eval =====
+  1 job(s), 1 at a time
+  [ok]   kernel_vortex
+
+===== done in 5s; results in stats/simulation =====
+  run record: logs/runs/20260813-183322_baseline_kernel+kernel_eval/manifest.json

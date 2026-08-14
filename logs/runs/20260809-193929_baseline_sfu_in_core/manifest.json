@@ -1,0 +1,37 @@
+{
+  "run_id": "20260809-193929_baseline_sfu_in_core",
+  "status": "ok",
+  "started": "2026-08-09T19:39:29-04:00",
+  "finished": "2026-08-09T21:46:13",
+  "duration_s": 7603,
+  "command": "run_all_simulation.sh -j 48 baseline_sfu_in_core",
+  "groups": [
+    "baseline_sfu_in_core"
+  ],
+  "failed_groups": [],
+  "models": [
+    "mistral_7b",
+    "llama_2_13b",
+    "llama-2-7b"
+  ],
+  "parallelism": 48,
+  "jobs": 60,
+  "outputs": [
+    {
+      "file": "baseline_sfu_in_core_evaluation_results.csv",
+      "present": true,
+      "path": "stats/simulation/baseline_sfu_in_core_evaluation_results.csv",
+      "rows": 60,
+      "bytes": 17977,
+      "md5": "bc6719cfc64ee7b679b3fdbdbc54e8b5",
+      "mtime": "2026-08-09T21:46:12"
+    }
+  ],
+  "environment": {
+    "host": "hl279-cmp-00.egr.duke.edu",
+    "python": "3.8.8",
+    "cpu_count": 48,
+    "git_commit": "345866b908542afcb75425c8dd43190e01bcdba1",
+    "git_dirty": true
+  }
+}

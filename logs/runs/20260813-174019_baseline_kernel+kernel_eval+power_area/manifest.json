@@ -1,0 +1,48 @@
+{
+  "run_id": "20260813-174019_baseline_kernel+kernel_eval+power_area",
+  "status": "ok",
+  "started": "2026-08-13T17:40:19-04:00",
+  "finished": "2026-08-13T17:41:17",
+  "duration_s": 58,
+  "command": "./run_all_simulation.sh -s vqcheck baseline_kernel kernel_eval power_area",
+  "groups": [
+    "baseline_kernel",
+    "kernel_eval",
+    "power_area"
+  ],
+  "failed_groups": [],
+  "models": [
+    "mistral_7b",
+    "llama_2_13b",
+    "llama-2-7b"
+  ],
+  "parallelism": 1,
+  "jobs": 3,
+  "outputs": [
+    {
+      "file": "kernel_results.csv",
+      "present": true,
+      "path": "stats/simulation/kernel_results.csv",
+      "rows": 160,
+      "bytes": 9554,
+      "md5": "318fbb036bdb438bb664545d98e961fb",
+      "mtime": "2026-08-13T17:40:24"
+    },
+    {
+      "file": "vortex_power_area_breakdown.json",
+      "present": true,
+      "path": "stats/simulation/vortex_power_area_breakdown.json",
+      "rows": null,
+      "bytes": 596,
+      "md5": "81e2ac18650daad9dfcda0a991c4bdf5",
+      "mtime": "2026-08-13T17:41:17"
+    }
+  ],
+  "environment": {
+    "host": "hl279-cmp-00.egr.duke.edu",
+    "python": "3.10.20",
+    "cpu_count": 48,
+    "git_commit": "2fdf033a04958480b1eb99e7664e748d7c548ebc",
+    "git_dirty": true
+  }
+}

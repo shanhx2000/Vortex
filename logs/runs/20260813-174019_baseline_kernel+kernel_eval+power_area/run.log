@@ -1,0 +1,15 @@
+
+===== baseline_kernel =====
+  1 job(s), 1 at a time
+  [ok]   kernel_baseline
+
+===== kernel_eval =====
+  1 job(s), 1 at a time
+  [ok]   kernel_vortex
+
+===== power_area =====
+  1 job(s), 1 at a time
+  [ok]   power_area
+
+===== done in 58s; results in stats/simulation/session_vqcheck =====
+  run record: logs/runs/20260813-174019_baseline_kernel+kernel_eval+power_area/manifest.json

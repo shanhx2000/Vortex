@@ -1,0 +1,7 @@
+
+===== kernel_eval =====
+  1 job(s), 1 at a time
+  [ok]   kernel_vortex
+
+===== done in 4s; results in stats/simulation =====
+  run record: logs/runs/20260808-170611_kernel_eval/manifest.json

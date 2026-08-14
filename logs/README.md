@@ -1,0 +1,49 @@
+# Run records
+
+One directory per invocation of `run_simulation.sh`. The point is
+provenance: given a figure, these files say which run produced its input data,
+when, from which commit, and what that data hashed to.
+
+```
+logs/
+  index.md                    one row per run, newest last  -- start here
+  runs/<run id>/
+    manifest.json             command, timing, git state, output checksums
+    run.log                   driver output (the [ok] / [FAIL] lines)
+    jobs/<group>/<tag>.log    per-job stdout          (git-ignored, ~5 MB/run)
+```
+
+Run ids are `<YYYYMMDD-HHMMSS>_<groups>`, so they sort chronologically.
+
+## What the manifest is for
+
+`outputs[]` records the size, row count, mtime and **md5** of every canonical
+file the run was responsible for. That is what makes the record useful later:
+
+- **Which run produced this CSV?** md5 the file, grep the manifests.
+- **Is a figure built on current data?** Compare the CSV's md5 against the
+  newest manifest that lists it.
+- **Was the simulator modified at the time?** `environment.git_commit` and
+  `git_dirty`. A run recorded with `git_dirty: true` was made from a working
+  tree that does not exist in history — treat its numbers as unreproducible.
+
+## Committed vs. ignored
+
+`index.md` and `manifest.json` are committed. `run.log` is committed (it is
+small). `jobs/` is **git-ignored** — tqdm progress bars make it megabytes per
+run, and it is only useful for debugging a failure while it is still fresh.
+
+## Reading a failure
+
+`run.log` names the failing job and its log path. Groups are independent, so a
+failure in one does not abort the others; the manifest lists them under
+`failed_groups` and the index row is marked `failed`.
+
+A run that is *killed* rather than failed — the OS reaping it, or the terminal
+going away — never reaches the point where the manifest and the index row are
+written, so it leaves a directory holding only `run.log`. There is one such
+record here, `runs/20260808-172111_batch_size_sweep+rebuttal/`: an attempted
+re-run of `batch_size_sweep`, OOM-killed part-way (`terminated by signal 9` at
+the end of its log). It produced nothing that any figure uses — BF's data comes
+from the `20260806-204612_...` run, which the index does list — and it is kept
+only so the gap in the id sequence has an explanation.

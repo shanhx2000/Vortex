@@ -1,0 +1,98 @@
+{
+  "comments": {
+    "units": {
+      "area": "um^2",
+      "power": "mW",
+      "energy": "nJ"
+    }
+  },
+  "default_dram": {
+    "dram_leak_energy": 2006.1599999999996,
+    "dram_cost_read": 0.01223,
+    "dram_cost_write": 0.01223
+  },
+  "sram_256x16bits_1rw": {
+    "area": 790.11678988,
+    "static_power": 0.308492,
+    "read_energy": 1.71028125e-05,
+    "write_energy": 2.5327875e-05
+  },
+  "systolic_array_16x16_fp16": {
+    "area": 276810.534,
+    "static_power": 5.95065,
+    "dynamic_power": 962.2120000000001
+  },
+  "fmul_fp16": {
+    "area": 522.774,
+    "static_power": 0.00942275,
+    "dynamic_power": 1.0784850000000001
+  },
+  "fadd_fp16": {
+    "area": 261.576,
+    "static_power": 0.00404782,
+    "dynamic_power": 0.87796
+  },
+  "qunit_WIDTH32_CODEBOOK_SIZE256_DATAWIDTH16_INDEXWI": {
+    "area": 4334.148,
+    "static_power": 0.119658,
+    "dynamic_power": 15.827149999999998
+  },
+  "vfadd_WIDTH32_DATAWIDTH16": {
+    "area": 9729.216,
+    "static_power": 0.227635,
+    "dynamic_power": 37.0223
+  },
+  "vfmul_WIDTH32_DATAWIDTH16": {
+    "area": 17309.376,
+    "static_power": 0.570781,
+    "dynamic_power": 39.096
+  },
+  "vgt_WIDTH32_DATAWIDTH16": {
+    "area": 2025.198,
+    "static_power": 0.051143999999999995,
+    "dynamic_power": 2.013656
+  },
+  "vmax_WIDTH32_VL4_DATAWIDTH16": {
+    "area": 14599.116,
+    "static_power": 0.804464,
+    "dynamic_power": 20.20306
+  },
+  "qua_update_WIDTH8_DATAWIDTH16_IDXWIDTH8": {
+    "area": 651.42,
+    "static_power": 0.00696772,
+    "dynamic_power": 1.22306
+  },
+  "fp16_add_tree_4": {
+    "area": 2176.398,
+    "static_power": 0.0466207,
+    "dynamic_power": 9.66286
+  },
+  "fp16_add_tree_32": {
+    "area": 12605.292,
+    "static_power": 0.24512399999999998,
+    "dynamic_power": 57.979099999999995
+  },
+  "sram_256x512bits_1rw": {
+    "area": 32154.159253999995,
+    "static_power": 8.57508,
+    "read_energy": 2.7558203125e-05,
+    "write_energy": 4.9760546875e-05
+  },
+  "sram_1024x256bits_1rw": {
+    "area": 45306.870588000005,
+    "static_power": 16.65,
+    "read_energy": 4.558984375e-05,
+    "write_energy": 8.0046875e-05
+  },
+  "sram_2048x16bits_1rw": {
+    "area": 5595.4080704,
+    "static_power": 2.47415,
+    "read_energy": 6.98975e-05,
+    "write_energy": 5.51589375e-05
+  },
+  "softmax_unit": {
+    "area": 63380.772,
+    "static_power": 2.01672,
+    "dynamic_power": 182.72543
+  }
+}

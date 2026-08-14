@@ -1,0 +1,77 @@
+{
+  "general": {
+    "frequency": 500,
+    "dram": {
+      "type": "hbm",
+      "power": {
+        "static": 2.00616,
+        "dynamic": 0.0,
+        "read_energy_per_bits": 1.223e-11,
+        "write_energy_per_bits": 1.223e-11
+      }
+    }
+  },
+  "modules": {
+    "core": {
+      "area": 1000000.0,
+      "power": {
+        "static": 3.006158389,
+        "dynamic": 0.0
+      }
+    },
+    "sfu": {
+      "softmax": {
+        "num": 1,
+        "width": 32,
+        "dtype": "fp16"
+      }
+    }
+  },
+  "buffers": {
+    "s_weight": {
+      "power": {
+        "static": 0.34065221333333334,
+        "read_energy_per_bits": 1.850515625e-14,
+        "write_energy_per_bits": 4.0707421875e-14
+      }
+    },
+    "s_act": {
+      "power": {
+        "static": 0.34065221333333334,
+        "read_energy_per_bits": 6.174462890625e-14,
+        "write_energy_per_bits": 1.521748046875e-13
+      }
+    },
+    "s_output": {
+      "power": {
+        "static": 0.34065221333333334,
+        "read_energy_per_bits": 6.174462890625e-14,
+        "write_energy_per_bits": 1.521748046875e-13
+      }
+    },
+    "s_parameter": {
+      "power": {
+        "static": 0.0,
+        "read_energy_per_bits": 0.0,
+        "write_energy_per_bits": 0.0
+      }
+    }
+  },
+  "runtime": {
+    "array_height": 2,
+    "array_width": 16,
+    "mem_width": 1024,
+    "tile_size_m": 1024,
+    "tile_size_k": 64,
+    "tile_size_n": 16,
+    "tile_size_bit_planes": 4,
+    "mu": 4,
+    "k_group": 8,
+    "bit_planes": 4,
+    "act_nbits": 16,
+    "out_nbits": 16,
+    "buffer_size_m": 1024,
+    "buffer_size_k": 64,
+    "buffer_size_n": 64
+  }
+}

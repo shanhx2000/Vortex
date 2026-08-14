@@ -1,0 +1,68 @@
+
+===== baseline_sfu =====
+  charging baselines VORTEX_SFU_STATIC_W=0.00201672 (was 0.05)
+  60 job(s), 48 at a time
+  [ok]   mistral_7b__systolic_array__i1_0__bs1
+  [ok]   mistral_7b__ant__i1_0__bs1
+  [ok]   llama-2-7b__ant__i1_0__bs1
+  [ok]   llama-2-7b__systolic_array__i1_0__bs1
+  [ok]   mistral_7b__figna__i1_0__bs1
+  [ok]   llama_2_13b__systolic_array__i1_0__bs1
+  [ok]   llama_2_13b__ant__i1_0__bs1
+  [ok]   llama_2_13b__figna__i1_0__bs1
+  [ok]   mistral_7b__figlut__i1_0__bs1
+  [ok]   llama_2_13b__figlut__i1_0__bs1
+  [ok]   llama-2-7b__figna__i1_0__bs1
+  [ok]   llama-2-7b__figlut__i1_0__bs1
+  [ok]   llama-2-7b__ant__i512_512__bs1
+  [ok]   llama-2-7b__systolic_array__i512_512__bs1
+  [ok]   mistral_7b__systolic_array__i512_512__bs1
+  [ok]   mistral_7b__ant__i512_512__bs1
+  [ok]   llama-2-7b__figna__i512_512__bs1
+  [ok]   mistral_7b__figna__i512_512__bs1
+  [ok]   llama_2_13b__ant__i512_512__bs1
+  [ok]   llama_2_13b__systolic_array__i512_512__bs1
+  [ok]   llama_2_13b__figna__i512_512__bs1
+  [ok]   llama-2-7b__systolic_array__i512_1024__bs1
+  [ok]   mistral_7b__ant__i512_1024__bs1
+  [ok]   llama-2-7b__ant__i512_1024__bs1
+  [ok]   llama-2-7b__figna__i512_1024__bs1
+  [ok]   mistral_7b__systolic_array__i512_1024__bs1
+  [ok]   mistral_7b__figna__i512_1024__bs1
+  [ok]   mistral_7b__figlut__i512_512__bs1
+  [ok]   llama_2_13b__figna__i512_1024__bs1
+  [ok]   llama-2-7b__figlut__i512_512__bs1
+  [ok]   llama_2_13b__systolic_array__i512_1024__bs1
+  [ok]   llama_2_13b__figlut__i512_512__bs1
+  [ok]   llama_2_13b__ant__i512_1024__bs1
+  [ok]   llama-2-7b__ant__i512_2048__bs1
+  [ok]   llama-2-7b__systolic_array__i512_2048__bs1
+  [ok]   mistral_7b__systolic_array__i512_2048__bs1
+  [ok]   mistral_7b__ant__i512_2048__bs1
+  [ok]   llama-2-7b__figlut__i512_1024__bs1
+  [ok]   mistral_7b__figlut__i512_1024__bs1
+  [ok]   mistral_7b__figna__i512_2048__bs1
+  [ok]   llama-2-7b__figna__i512_2048__bs1
+  [ok]   llama_2_13b__systolic_array__i512_2048__bs1
+  [ok]   llama_2_13b__ant__i512_2048__bs1
+  [ok]   llama_2_13b__figlut__i512_1024__bs1
+  [ok]   llama_2_13b__figna__i512_2048__bs1
+  [ok]   mistral_7b__systolic_array__i512_4096__bs1
+  [ok]   llama-2-7b__ant__i512_4096__bs1
+  [ok]   llama-2-7b__systolic_array__i512_4096__bs1
+  [ok]   mistral_7b__ant__i512_4096__bs1
+  [ok]   llama-2-7b__figna__i512_4096__bs1
+  [ok]   llama-2-7b__figlut__i512_2048__bs1
+  [ok]   mistral_7b__figna__i512_4096__bs1
+  [ok]   mistral_7b__figlut__i512_2048__bs1
+  [ok]   llama_2_13b__ant__i512_4096__bs1
+  [ok]   llama_2_13b__systolic_array__i512_4096__bs1
+  [ok]   llama_2_13b__figna__i512_4096__bs1
+  [ok]   llama_2_13b__figlut__i512_2048__bs1
+  [ok]   llama-2-7b__figlut__i512_4096__bs1
+  [ok]   mistral_7b__figlut__i512_4096__bs1
+  [ok]   llama_2_13b__figlut__i512_4096__bs1
+  merged 60 shard(s), 60 rows -> stats/simulation/baseline_sfu_evaluation_results.csv
+
+===== done in 5860s; results in stats/simulation =====
+  run record: logs/runs/20260809-130855_baseline_sfu/manifest.json
