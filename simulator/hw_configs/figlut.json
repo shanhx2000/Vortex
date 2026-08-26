@@ -13,7 +13,7 @@
   },
   "modules": {
     "core": {
-      "area": 1000000.0,
+      "area": 1582000.0,
       "power": {
         "static": 3.006158389,
         "dynamic": 0.0
