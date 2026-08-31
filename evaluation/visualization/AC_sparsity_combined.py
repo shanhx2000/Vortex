@@ -166,7 +166,7 @@ def plot_AC_sparsity_combined():
 
                 delta = None if s_teal is None else (s_ours - s_teal) * 100
                 rows.append(f"{thr * 100:.0f}%: {s_ours * 100:.0f}%"
-                            + ("" if delta is None else f" ({delta:+.0f})"))
+                            + ("" if delta is None else f" ({delta:+.0f}%)"))
 
         if rows:
             ax.text(0.035, 0.035, "\n".join(rows), transform=ax.transAxes,

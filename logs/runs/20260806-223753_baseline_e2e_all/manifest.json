@@ -28,7 +28,7 @@
     }
   ],
   "environment": {
-    "host": "hl279-cmp-00.egr.duke.edu",
+    "host": "497c2e49",
     "python": "3.8.8",
     "cpu_count": 48,
     "git_commit": "6754f4b6ad6ddfdd7b7d6947d81ff8dc3e724e02",

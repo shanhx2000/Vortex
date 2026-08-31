@@ -26,6 +26,10 @@ file the run was responsible for. That is what makes the record useful later:
   run and matches none of them exactly.
 - **Is a figure built on current data?** Compare the CSV's md5 against the
   newest manifest that lists it.
+- **Which machine ran it?** `environment.host` is an 8-hex blake2s digest of
+  the hostname, not the hostname itself: runs made on one machine share a value
+  without the record naming anybody's infrastructure. Every run here reads
+  `497c2e49` — one 48-core machine produced all of them.
 
 **`environment.git_commit` does not resolve in this repository.** These runs
 were made in the private development tree this artifact was split out of, so

@@ -810,7 +810,9 @@ manifest = {
     "jobs": int(env["NRUNJOBS"]),
     "outputs": outputs,
     "environment": {
-        "host": platform.node(),
+        # Hostname digest, not the hostname: runs from one machine group
+        # together without the record naming it. See logs/README.md.
+        "host": hashlib.blake2s(platform.node().encode(), digest_size=4).hexdigest(),
         "python": sys.version.split()[0],
         "cpu_count": os.cpu_count(),
         "git_commit": git("rev-parse", "HEAD"),
