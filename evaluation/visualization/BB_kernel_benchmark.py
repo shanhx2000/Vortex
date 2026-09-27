@@ -58,7 +58,10 @@ def _bars_with_cap(ax, xs, values, bar_width, offset, ylim_top, style, label=Non
 
 def plot_BB_kernel_benchmark(picked_kernels=None):
     picked_kernels = PICKED_KERNELS if picked_kernels is None else picked_kernels
-    plt.rcParams.update({"font.size": FONT, "pdf.fonttype": 42, "ps.fonttype": 42})
+    # The notebook cell ran after the hardware rcParams block and overrode only
+    # font.size; axis labels, ticks and legend kept their 18 pt.
+    _style.use(_style.FONT_HARDWARE, titles=False)
+    plt.rcParams["font.size"] = FONT
 
     df = pd.read_csv(_paths.sim_data(INPUT_CSV))
 

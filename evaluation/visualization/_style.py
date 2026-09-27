@@ -32,7 +32,12 @@ def use(font_size, titles=True):
     `titles`: plot_motivation and visual_all_algorithm also scale axes.titlesize;
     get_sparsity_vs_batch and the hardware notebooks do not. Keeping the
     distinction matters -- it is visible in the rendered output.
+
+    Starts from matplotlib's defaults, so a figure never inherits the previous
+    script's rcParams when plot_all.py runs them in one process. Without this,
+    AB drew its titles at AA's 18 pt instead of the default 1.2 x 16 pt.
     """
+    plt.rcdefaults()   # the backend is exempt, so Agg survives
     params = {
         "font.size": font_size,
         "axes.labelsize": font_size,

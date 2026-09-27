@@ -46,7 +46,7 @@ so `--use-ref` is a no-op for them.
 | Module | Role |
 | --- | --- |
 | `_paths.py` | resolves every input; implements `--use-ref` and `--out-dir` |
-| `_style.py` | the notebooks' rcParams block, plus `pdf.fonttype = 42` |
+| `_style.py` | the notebooks' rcParams block (reset per figure, so run order cannot leak), plus `pdf.fonttype = 42` |
 | `_common.py` | `load_latest()`, `geo_mean()`, model labels, empty-selection guard |
 
 No script hard-codes a path or a font size.

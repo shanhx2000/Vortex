@@ -56,7 +56,9 @@ def _nudge(autotexts, offsets):
 
 
 def plot_BC_power_area_pie(bottom_margin=0.01, title_pad=2):
-    plt.rcParams.update({"pdf.fonttype": 42, "ps.fonttype": 42})
+    # Same inherited state as BB: the hardware block, with font.size at 16.
+    _style.use(_style.FONT_HARDWARE, titles=False)
+    plt.rcParams["font.size"] = FONT
 
     with open(_paths.sim_data(INPUT_JSON)) as fh:
         result = json.load(fh)
