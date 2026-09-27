@@ -116,8 +116,13 @@ def plot_BF_forceflow_geomean():
         ax.yaxis.set_minor_locator(LogLocator(base=base, subs=_uniform_subs(base)))
         ax.yaxis.set_minor_formatter(NullFormatter())
         ax.tick_params(axis="y", which="minor", length=3, width=1.5)
+        # The notebook's final touches, made after tight_layout.
+        ax.tick_params(axis="y", which="major", length=5, width=1.5, pad=0.5)
+        for label in ax.get_xticklabels() + ax.get_yticklabels():
+            label.set_fontsize(15.5)
+    fig.subplots_adjust(wspace=0.2)
 
-    path = _style.save(plt, _paths.figure_path(FIGURE))
+    path =_style.save(plt, _paths.figure_path(FIGURE))
     plt.close(fig)
     return path
 
